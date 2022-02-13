@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"bitburner.scriptRoot": "./dist/",
+		"files.autoSave": "off",
+		"autoSnippet.snippets": [
+			{
+				"pattern": "**/*.ts",
+				"snippet": "ns-template"
+			}
+		],
+		"bitburner.authToken": "teay6e8txTJKdW9xG/ZsEPfsLXggFqypozbIw+pqTh0vHY/e/miVe5bAromRcT/q",
+		"bitburner.fileWatcher.enable": true,
+		"bitburner.showFileWatcherEnabledNotification": true,
+		"bitburner.showPushSuccessNotification": true
+	}
+}

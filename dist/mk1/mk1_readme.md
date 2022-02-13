@@ -55,4 +55,8 @@ steal.script
 weaken.script
 - basic script with a single task
 
+delete_files.script
+-Deletes all of the *.txt files for cleanup
 
+show_texts.js
+-Prints the content of all the txt files in /scan for debug purposes
