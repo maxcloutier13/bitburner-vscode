@@ -27,9 +27,9 @@ Setup remote-debugging in Steam:
 ## Project installation
 There is a couple options.
 
-You can go on gitHub directly, make a clone of the project and open it up.
+You can go on gitHub directly, make a clone of the project and open it up. This was my prefered method and I HIGHLY suggest that you take the time to learn how to create and use a github repository if you don't already. It's a basic programming task/skill and while it sounds complex for such a simple project it's actually really easy and it will absolutely save your ass at some point.
 
-or you can start vcCode, go to the terminal and type:
+OR you can start vsCode, go to the terminal and type:
 ```
 git clone https://github.com/bitburner-official/vscode-template
 ```
