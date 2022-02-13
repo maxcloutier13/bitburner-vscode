@@ -2,7 +2,7 @@
   "include": [
     "NetscriptDefinitions.d.ts",
     "global.d.ts",
-    "src/**/*", "dist/test_vscode.js", "dist/hud.js",, "dist/mk1_start.script"
+    "src/**/*",
   ],
   "compilerOptions": {
     "module": "esnext",
@@ -12,6 +12,17 @@
     "noImplicitThis": true,
     "esModuleInterop": true,
     "inlineSourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
     "sourceRoot": "http://localhost:8000/sources/",
     "strict": true,
     "rootDir": "src/",
