@@ -60,7 +60,9 @@ npm run watch
 - In the game watcher.js should catch the change and notify you in the game terminal. It should also kill/update/restart the script.
 
 ## Notes
-Well that's it. Look at my *.ts files for inspiration on how to make yours. It is very similar to javascript but with some quirks. Find a good Typescript reference and go from there.
+Well that's it. Look at my *.ts files for inspiration on how to make yours. Only got "Z_test.ts" for now but I'll be building my mid-game routine with this real soon). 
+
+It is very similar to javascript but with some quirks. Find a good Typescript reference and go from there.
 
 There are some details about import and such so I included the original readme below.
 
