@@ -7,7 +7,7 @@ The official instructions are good if a bit unclear so I'll try to add some deta
 
 ## Where to start
 You need to install some things first:
-- Visual Studio Code (important, not community or pro. You need CODE)
+- [Visual Studio Code](https://code.visualstudio.com/) 
 - [Node.js](https://nodejs.org/en/download/)
 - [Git](https://git-scm.com/downloads)
 
