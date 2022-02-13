@@ -1,0 +1,87 @@
+var serverList = [];
+var bestServer = "foodnstuff";
+var weakServerList = [];
+var scriptsOwned = 0;
+var directory = "/mk1/scan/";
+disableLog("ALL"); 
+var programs = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe",
+	"HTTPWorm.exe", "SQLInject.exe"];
+
+//Show window
+tail("/mk1/initscan.script", "home");
+print("------------------------------- initScan - Start ---");
+
+//Deleting all files
+var arr = ls(getHostname(), "/scan/");
+print("-- Deleting " + arr.length + " files");
+for (var z in arr) {
+	if (rm(arr[z]))
+		print("-- Deleted: " + arr[z]);
+	else
+		print("--- Error deleting: " + arr[z]);
+}
+print("-- Done deleting files --")
+//Create default target file
+write(directory + "target.txt", "n00dles", "w");
+//Find how many scripts I own
+for (z = 0; z < programs.length; ++z) {
+	if (fileExists(programs[z], "home")) {
+		if (z === 0) { scriptsOwned = 0; }
+		if (z === 1) { scriptsOwned = 1; }
+		if (z === 2) { scriptsOwned = 2; }
+		if (z === 3) { scriptsOwned = 3; }
+		if (z === 4) { scriptsOwned = 4; }
+	}
+}
+//Scans the servers connected to home
+serverList = scan("home");
+
+for (i = 0; i < serverList.length; i++) {
+	server = serverList[i];
+	//Write server name in text
+	print("+- Writing " + server + " to " + directory + i + ".txt");
+	write(directory + i + ".txt", server, "w");
+	//sleep(5000);
+	//Get all purchased servers
+	var servers = getPurchasedServers();
+	if (servers.indexOf(server) === -1) {
+		print("Check if hackable: " + server);
+		//Check if hackable
+		if (getHackingLevel() >= getServerRequiredHackingLevel(server)) {
+			print(server + " is low level");
+			//Check how many ports need to be opened
+			portsNeeded = getServerNumPortsRequired(server);
+			//Check if I have the scripts
+			if (scriptsOwned < portsNeeded) {
+				print("--- " + server + " - Missing scripts. Skipping");
+			}
+			else {
+				//GOOD TO GO!
+				print("--- " + server + " - Server weak.");
+				//Server is hackable
+				weakServerList.push(server);
+				
+				write(directory + "w" + i + ".txt", server, "w");
+				if (getServerMaxMoney(server) > getServerMaxMoney(bestServer)) {
+					bestServer = server;
+					write(directory + "bestserver.txt", bestServer, "w");
+				}
+			}
+		}
+		else {
+			print("Server too hard to hack");
+		}
+	}
+	else {
+		print("Personal server. Skipping");
+		sleep(1000);
+	}
+	write(directory + "weakcount.txt", weakServerList.length, "w");
+}
+alert("InitDone: Found " + serverList.length + "servers - " + weakServerList.length + " are weak. Attacking.");
+write(directory + "servercount.txt", serverList.length, "w");
+run("/mk1/attack.script", 1);
+//Create default ram setting
+write(directory + "ram.txt", "8", "w");
+run("/mk1/servers.script", 1);
+print("------------------------------- initial scan - End ---");

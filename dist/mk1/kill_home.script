@@ -1,0 +1,7 @@
+//tail();
+var scripts = ps("home");
+if(prompt("WARNING - Kill all script on home server?")){
+    tprint("INFO - Killing "+ scripts.length + " scripts -- ")
+    killall();
+}
+    

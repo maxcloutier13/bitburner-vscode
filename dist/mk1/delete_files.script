@@ -1,0 +1,11 @@
+tail();
+//Deleting all files
+var arr = ls(getHostname(), ".txt");
+print("-- Deleting " + arr.length + " files");
+for (var z in arr) {
+	if (rm(arr[z]))
+		print("-- Deleted: " + arr[z]);
+	else
+		print("--- Error deleting: " + arr[z]);
+}
+print("-- Done deleting files --")
