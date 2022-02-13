@@ -9,11 +9,58 @@ The official instructions are good if a bit unclear so I'll try to add some deta
 You need to install some things first:
 - Visual Studio Code (important, not community or pro. You need CODE)
 - [Node.js](https://nodejs.org/en/download/)
+- [Git](https://git-scm.com/downloads)
 
-Needed Extensions
+Needed vsCode Extensions
 - [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration)
+- [Node NPM](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script)
+
+Nice-to-have vsCode Extensions
 - [vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [auto-snippet](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.auto-snippet)
+
+In Steam:
+- Right-click on Bitburner->Properties
+- On the general tab find the "LAUNCH OPTIONS" section
+- Add this: "--remote-debugging-port=9222"
+
+## Project installation
+There is a couple options.
+
+You can go on gitHub directly, make a clone of the project and open it up.
+
+or you can start vcCode, go to the terminal and type:
+```
+git clone https://github.com/bitburner-official/vscode-template
+```
+## Setting things up
+Once you have the project open and hopefully linked to your own cloned repository
+- Start the game and make sure both "Enable server" and "Enable Autostart" are checked in APIServer menu
+- Click on "copy auth token" in APIServer menu
+- In vsCode: Find the Bitburner VSCode extension and open the settings.
+- Paste your token in the first field (replace mine!)
+
+## Starting things up
+- In vsCode: Go to the terminal and type these:
+```
+npm install
+npm run defs
+npm run watch
+```
+- Press F1 and Select Bitburner: Enable File Watcher to enable auto uploading to the game
+- In the game: you should have a script called "watcher.js" now. Run it. You can add this to your startup script for future simplicity.
+
+## Debugging
+- Press F5 to start running vsCode compiling. Keep this going as you edit your files, they will get auto-compiled and converted to javascript as you go
+- You can add breakpoints to your code that will get triggered later when you run the script
+
+## How to use this
+- Forget about the *.script ns1 ... and even about the *.js javascripts. With this you need to work with Typescript files
+- Your *.ts scripts go in the src/ folder. This is where you code. These files get auto-transpiled (converted) into javascript when you save. This creates a *.js version in the dist/ folder that then gets sent to the game automatically
+- watcher.js should catch the change and notify you in the game terminal. It should also kill/update/restart the script
+
+## Notes
+Well that's it. Look at the *.ts files for inspiration on how to make yours. It is very similar to javascript but with some quirks. 
 
 
 ## -- ORIGINAL README BELOW --
