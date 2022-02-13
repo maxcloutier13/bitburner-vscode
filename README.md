@@ -60,7 +60,11 @@ npm run watch
 - watcher.js should catch the change and notify you in the game terminal. It should also kill/update/restart the script
 
 ## Notes
-Well that's it. Look at the *.ts files for inspiration on how to make yours. It is very similar to javascript but with some quirks. 
+Well that's it. Look at the *.ts files for inspiration on how to make yours. It is very similar to javascript but with some quirks.
+
+There are some details about import and such so I included the original readme below.
+
+Hope this helps. 
 
 
 ## -- ORIGINAL README BELOW --
