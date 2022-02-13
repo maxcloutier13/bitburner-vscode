@@ -2,7 +2,11 @@
   "include": [
     "NetscriptDefinitions.d.ts",
     "global.d.ts",
+<<<<<<< HEAD
     "src/**/*",
+=======
+    "src/**/*"
+>>>>>>> fafd95e9f6db340eb34a8b687d91866cf3e2a42a
   ],
   "compilerOptions": {
     "module": "esnext",
