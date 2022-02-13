@@ -1,6 +1,8 @@
 ## Additional notes
 This is my personal clone of "vscode-template" from https://github.com/bitburner-official/vscode-template.
+
 It includes some changes in the configuration files to make the debugging work. 
+
 The official instructions are good if a bit unclear so I'll try to add some details.
 
 ## Where to start
