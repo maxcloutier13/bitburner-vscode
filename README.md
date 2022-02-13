@@ -5,9 +5,12 @@ The official instructions are good if a bit unclear so I'll try to add some deta
 
 ## Where to start
 You need to install some things first:
-- Visual Studio Code (important, not community or pro, CODE).
+- Visual Studio Code (important, not community or pro. You need CODE).
+- [Node.js](https://nodejs.org/en/download/)
+Needed Extensions
 - [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration).
-
+- [vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+- [auto-snippet](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.auto-snippet).
 
 
 ## -- ORIGINAL README BELOW --
