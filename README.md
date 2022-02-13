@@ -6,7 +6,7 @@ The official instructions are good if a bit unclear so I'll try to add some deta
 ## Where to start
 You need to install some things first:
 - Visual Studio Code (important, not community or pro, CODE).
--- [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration).
+- [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration).
 
 
 
