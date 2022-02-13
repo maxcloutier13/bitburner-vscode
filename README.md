@@ -1,3 +1,16 @@
+## Additional notes
+This is my personal clone of "vscode-template" from https://github.com/bitburner-official/vscode-template
+It includes some changes in the configuration files to make the debugging work. 
+The official instructions are good if a bit unclear so I'll try to add some details
+
+## Where to start
+You need to install some things first:
+- Visual Studio Code (important, not community or pro, CODE)
+-- [Bitburner VSCode Integration](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration)
+
+
+
+## ORIGINAL README BELOW
 ## Extension Recommendations
 [vscode-bitburner-connector](https://github.com/bitburner-official/bitburner-vscode) ([vscode extension marketplace](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration)) to upload your files into the game
 
