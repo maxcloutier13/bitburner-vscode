@@ -37,7 +37,6 @@ git clone https://github.com/bitburner-official/vscode-template
 Once you have the project open and hopefully linked to your own cloned repository for version control and safety
 - Start the game and make sure both "Enable server" and "Enable Autostart" are checked in APIServer menu
 - Click on "copy auth token" in APIServer menu
-
 - In vsCode: Find the Bitburner VSCode extension and open the settings.
 - Paste your token in the first field (replace mine!)
 
