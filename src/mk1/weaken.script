@@ -1,7 +1,0 @@
-var target = args[0];
-while (true) {
-	if (hasRootAccess(target))
-		weaken(target);
-	else
-		sleep(10000);
-}
