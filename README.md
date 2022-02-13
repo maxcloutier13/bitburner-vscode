@@ -68,16 +68,16 @@ npm run watch
 ## What to do next time you want to play
 All the settings should stay so:
 - Start the game. Make sure "watcher.js" is running.
-- Start vsCode. Press F5 to start the compiling/debugging
-- Create/edit some scripts in /src and it should all still work
+- Start vsCode. Press F5 to start the compiling/debugging.
+- Create/edit some scripts in /src and it should all still work.
 
 ## Notes
 Well that's it. Look at my *.ts files for inspiration on how to make yours. Only got "Z_test.ts" for now but I'll be building my mid-game routine with this real soon). 
 
 It is very similar to javascript but with some quirks. Find a good Typescript reference and go from there.
+Check out [DarkMio's *.ts scripts](https://github.com/DarkMio/bitburner-ts/tree/dev/src/scripts)
 
-There are some details about import and such so I included the original readme below.
-
+There are some details about import and such that I'm not sure about yet so I included the original readme below.
 Hope this helps. 
 
 
