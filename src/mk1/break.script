@@ -1,0 +1,33 @@
+var target = args[0];
+var ports = args[1];
+var programs = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
+//tail();
+
+print("------------------------------- Break - Start ---");
+//Run scripts as needed
+print(target + " - Breaking server with " + ports + " ports needed");
+if (ports >= 1) {
+	print("-- 1 - bruteSSH");
+	brutessh(target);
+}
+if (ports >= 2) {
+	print("-- 2 - ftpCrack");
+	ftpcrack(target);
+}
+if (ports >= 3) {
+	print("-- 3 - relaySMTP");
+	relaysmtp(target);
+}
+if (ports >= 4) {
+	print("-- 4 - httpWorm");
+	httpworm(target);
+}
+if (ports >= 5) {
+	print("-- 5 - SQLInject");
+	sqlinject(target);
+}
+print(target + " - BROKEN - Nuking");
+nuke(target);
+print(target + " - is now p0wned");
+alert(target + " - is now p0wned");
+print("------------------------------- Break - End ---");
