@@ -57,9 +57,15 @@ npm run watch
 ## How to use this
 - Forget about the *.script... and even about the *.js javascripts. With this you need to work with Typescript files.
 - Your *.ts scripts go in the src/ folder. This is where you code. These files get auto-transpiled (converted) into javascript when you save. This creates a *.js version in the dist/ folder that then gets sent to the game automatically. 
-- In the game watcher.js should catch the change and notify you in the game terminal. It should also kill/update/restart the script.
+- In the game, "watcher.js" should catch the change and notify you in the game terminal. It should also kill/update/restart the script.
 - You should find my super basic mk1 scripts in-game. Run "mk1_start_script" to get everything going. Scripts are in mk1/ . Very crude but workable for early-mid game. Super unefficient, but it will brute force it's way and make some money. 
 - mk2 scripts coming soon
+
+## What to do next time you want to play
+All the settings should stay so:
+- Start the game. Make sure "watcher.js" is running.
+- Start vsCode. Press F5 to start the compiling/debugging
+- Create/edit some scripts in /src and it should all still work
 
 ## Notes
 Well that's it. Look at my *.ts files for inspiration on how to make yours. Only got "Z_test.ts" for now but I'll be building my mid-game routine with this real soon). 
