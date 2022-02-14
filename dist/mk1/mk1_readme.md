@@ -5,13 +5,15 @@
 - First bactch of scripts.
 - Shows basic hud, scans servers, buys/upgrades servers and basic mass attack on single server.
 - Good for game start but quite ineficient.  
-----------------------------------------------------------------------------------
---- How to ---
-- Copy all files to your home server root
+
+
+--- How to -----------------------------------------------------------------------
+- Copy all files to your home server root (will happen automatically if using the vsCode project)
 - Run command: "run start.script"
 - That's it. Everything will unfold from there. Most routines will popup a log for troubleshooting but you can close if you want
-----------------------------------------------------------------------------------
------ Scripts -----
+
+
+----- Scripts --------------------------------------------------------------------
 start.script
 - Initializes everything then dies
 

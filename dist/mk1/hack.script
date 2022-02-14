@@ -1,44 +1,51 @@
+/* -+-+-+- hack.script -+-+-+- */
+// Multi-purpose basic hack script
+
+/* ----- Variables ----- */
 var target = args[0];
 var moneyThresh = getServerMaxMoney(target) * 0.75;
 var securityThresh = getServerMinSecurityLevel(target) + 5;
 var ctr = 0;
 var ctrRun = 0;
-//Clears out some logs
+
+/* -----Settings ----- */
+// Show window 
+tail();
+// Disable logging
 disableLog("ALL");
-clearLog();
-//print("------------------------------- Hack - Start ---");
+
+/* ----- Main ----- */
+print("------ hack.script --------------------------------");
+
+// Keep looping
 while (true) {
-	print("--- Attack routine " + ctr + " initiated --- ")
+	print("-- Attack routine " + ctr + " initiated")
+	//Checks if rooted, sanity check
 	while (hasRootAccess(target) === false) {
-		print("Server locked... waiting... ")
+		print("--- Server locked... waiting... ")
 		sleep(10000);
 	}
+	// Finds some info on target
 	var security = getServerSecurityLevel(target);
 	var money = getServerMoneyAvailable(target);
-	//Fix this rounding
-	//money = money.toFixed(0);
-	//security = security.toFixed(0);
-	print(target + " Security:" + security + " Cash:" + money)
+	print("--- " + target + " Security:" + security + " Cash:" + money)
 	if (security > securityThresh) {
 		// If the server's security level is above our threshold, weaken it
-		print("-- Too secure. Weakening… ");
+		print("---- Too secure. Weakening… ");
 		weaken(target);
 	} else if (money < moneyThresh) {
 		// If the server's money is less than our threshold, grow it
-		print("-- Not Enough cash. Growing… ");
+		print("---- Not Enough cash. Growing… ");
 		grow(target);
 	} else {
 		// Otherwise, hack it
-		print(target + "-- Hacking… ");
-		//On first run: notify
-		if (ctrRun === 0) {
-			//alert("--- " + target + " broken - " + getHostname() + " attacking... ---");
-			ctrRun++;
-		}
+		print(target + "---- Ripe. Hacking… ");
 		hack(target);
 	}
 	ctr++;
-	clearLog();
 }
+
+// This should never happen
 alert(target + " - Hacking script has ended. ERROR");
-print("------------------------------- Hack - End ---");
+
+print("---------------- hack DONE! -----------------------");

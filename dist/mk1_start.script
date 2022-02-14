@@ -1,26 +1,42 @@
+/* -+-+-+- mk1_start.script -+-+-+- */
+// Startup script. Starts everything else.
+
+/* -----Settings ----- */
+// Show window 
 tail();
+// Disable logging
 disableLog("ALL");
-//Main script
-//Scans layer1 servers. Starts attack loop and basic server purchases.
-print("------------------------------- Start - Begin---");
-print("- Start watcher for auto file updates from VisualStudio -");
+
+/* ----- Main ----- */
+print("------ mk1_start.script ---------------------------");
+
+// vsCode integration
+print("-- Start watcher.js for vsCode integration");
 run("watcher.js");
-print("-- Run Initial scan --");
+
+// Initial scan
+print("-- Run Initial scan");
 run("/mk1/initscan.script", 1);
-sleep(10000);
-print("Checking if script still running...");
+sleep(2000);
+
+//Wait for the scan to finish before proceeding
+print("--- Waiting for scan to finish...");
 while (scriptRunning("/mk1/initscan.script", getHostname())) {
-	print("Waiting for scan to finish...");
 	sleep(5000);
 }
-//Starts the info window
+
+// Starts the info window
 print("-- Show info Hud --");
 run("/mk1/targetinfo.script", 1);
-//Starts the continuous scan
+
+// Starts the continuous scan
 print("-- Start scanLoop --");
 run("/mk1/scanloop.script", 1);
+
+// Starts homeAttack
 print("-- Start HomeAttack --");
 run("/mk1/homeattack.script", 1);
-print("---------------- STARTUP DONE! ----------------");
+
+// All done
+print("---------------- STARTUP DONE! --------------------");
 alert("-- Basic setup done. Continuous scan/hack active --")
-print("------------------------------- Start - End ---");

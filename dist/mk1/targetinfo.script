@@ -1,8 +1,18 @@
+/* -+-+-+- targetinfo.script -+-+-+- */
+// Basic hud with info on best target and current servers and upgrades
+
+/* ----- Variables ----- */
 var directory = "/mk1/scan/";
-//Show window
+
+/* -----Settings ----- */
+// Show window 
 tail();
-//Disable logging for more prettyness
+// Disable logging
 disableLog("ALL");
+
+/* ----- Main ----- */
+print("------ targetinfo.script --------------------------");
+
 //Run forever
 while (true) {
 	clearLog();
@@ -29,3 +39,5 @@ while (true) {
 	print("----------------");
 	sleep(10000);
 }
+
+print("---------------- targetinfo DONE! -----------------");

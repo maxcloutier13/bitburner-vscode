@@ -1,3 +1,7 @@
+/* -+-+-+- weaken.script -+-+-+- */
+// Constantly weakens target
+
+//tail();
 var target = args[0];
 while (true) {
 	if (hasRootAccess(target))

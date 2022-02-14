@@ -69,8 +69,9 @@ npm run watch
 ## What to do next time you want to play
 All the settings should stay so:
 - Start the game. Make sure "watcher.js" is running.
-- Start vsCode. Press F5 to start the compiling/debugging.
-- Create/edit some scripts in /src and it should all still work.
+- Start vsCode. Run in terminal: "npm run watch"
+- Press F5 to start the compiling/debugging.
+- Create/edit some Typescritp scripts in /src ... Saving a .ts should transpile a .js and upload to game
 
 ## Notes
 Well that's it. Look at my *.ts files for inspiration on how to make yours. Only got "Z_test.ts" for now but I'll be building my mid-game routine with this real soon). 

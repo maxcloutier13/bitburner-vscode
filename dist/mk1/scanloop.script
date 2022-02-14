@@ -1,33 +1,53 @@
-disableLog("ALL");
-var bestServer = "n00dles";
-//var lastServer = "lastServer";
-var directory = "/mk1/scan/";
+/* -+-+-+- scanloop.script -+-+-+- */
+// Keeps scanning servers and updating the cached files
+
+/* ----- Variables ----- */
 var loop = 0;
-var programs = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe",
-	"HTTPWorm.exe", "SQLInject.exe"];
-//Show window
+var programs = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
+
+/* -----Settings ----- */
+// Show window 
 tail();
+// Disable logging
+disableLog("ALL");
+// Starting server
+var bestServer = "n00dles";
+// Directory of scan cache files
+var directory = "/mk1/scan/";
 
-//print("------------------------------- scanLoop - Start ---");
-print("Scanning all servers");
+/* ----- Main ----- */
+print("------ scanloop.script ----------------------------");
 
+// Function to scan everything
 function scanning() {
 	var scriptsOwned = 0;
 	var ctr = 0;
 	var serverList = ["home"];
 	var weakServerList = [];
+
 	//Finds the scripts I own
 	for (z = 0; z < programs.length; ++z) {
 		if (fileExists(programs[z], "home")) {
-			if (z === 0) { scriptsOwned = 1; }
-			if (z === 1) { scriptsOwned = 2; }
-			if (z === 2) { scriptsOwned = 3; }
-			if (z === 3) { scriptsOwned = 4; }
-			if (z === 4) { scriptsOwned = 5; }
+			if (z === 0) {
+				scriptsOwned = 1;
+			}
+			if (z === 1) {
+				scriptsOwned = 2;
+			}
+			if (z === 2) {
+				scriptsOwned = 3;
+			}
+			if (z === 3) {
+				scriptsOwned = 4;
+			}
+			if (z === 4) {
+				scriptsOwned = 5;
+			}
 		}
 	}
 	print("ScriptsOwned: " + scriptsOwned);
-	//sleep(5000);
+
+	//Iterates trough serverList
 	for (i = 0; i < serverList.length; i++) {
 		currentScan = scan(serverList[i]);
 		for (j = 0; j < currentScan.length; j++) {
@@ -41,12 +61,12 @@ function scanning() {
 					//Push this server to serverList
 					serverList.push(currentScanServer);
 					//Write server name in text
-					print("+- Writing " + currentScanServer + " to " + directory + ctr + ".txt");
+					print("--- Writing " + currentScanServer + " to " + directory + ctr + ".txt");
 					write(directory + ctr + ".txt", currentScanServer, "w");
 					//sleep(5000);
 					var hackingLevel = getHackingLevel();
 					var requiredLevel = getServerRequiredHackingLevel(currentScanServer);
-					print(currentScanServer + "Level: " + hackingLevel + "/" + requiredLevel);
+					print("--- " + currentScanServer + "Level: " + hackingLevel + "/" + requiredLevel);
 					//Check if hackable
 					if (hackingLevel >= requiredLevel) {
 						//print(currentScanServer + " is weak");
@@ -54,55 +74,51 @@ function scanning() {
 						portsNeeded = getServerNumPortsRequired(currentScanServer);
 						//Check if I have the scripts
 						if (scriptsOwned < portsNeeded) {
-							print("--- " + currentScanServer + " - Missing scripts. Skipping");
+							print("---- " + currentScanServer + " - Missing scripts. Skipping");
 							sleep(1000);
 							clearLog();
-						}
-						else {
+						} else {
 							//GOOD TO GO!
-							print(currentScanServer + " " + scriptsOwned + "/" + portsNeeded + " ports can be broken");
-							print("--- " + currentScanServer + " -- WEAK --");
-							//sleep(5000);
+							print("---- " + currentScanServer + " " + scriptsOwned + "/" + portsNeeded + " ports can be broken");
+							print("----- " + currentScanServer + " - WEAK");
 							//Server is hackable						
 							weakServerList.push(currentScanServer);
-							//alert("Weakcount up:" + weakServerList.length);
-							//alert("New weak server! :" + currentScanServer);
-							print("Writing to file: " + "w" + weakServerList.length + ".txt");
+							// Writing to cache file
+							print("----- Writing to file: " + "w" + weakServerList.length + ".txt");
 							write(directory + "w" + weakServerList.length + ".txt", currentScanServer, "w");
 							if (getServerMaxMoney(currentScanServer) > getServerMaxMoney(bestServer)) {
-								//lastServer = bestServer;
+								print("-$-$- this is the richest hackable server yet -$-$-");
 								bestServer = currentScanServer;
 							}
 						}
-					}
-					else {
-						print("*** Server too hard to hack ***");
-						sleep(1000);
+					} else {
+						print("--- Server too hard to hack ");
 					}
 					ctr++;
 				}
-			}
-			else {
-				print("* This is a personal server. Skipping. *");
-				sleep(1000);
-				clearLog();
+			} else {
+				//print("--- This is a personal server. Skipping.");
 			}
 
 		}
 	}
-	//alert("Found " + serverList.length + "servers");
-	//sleep(2000);
+	//Writing all the info
 	write(directory + "bestserver.txt", bestServer, "w");
-	write(directory + "weakcount.txt", weakServerList.length, "w");
+	var tempWeakCount = weakServerList.length - 1; //Trick to ignore the first file
+	write(directory + "weakcount.txt", tempWeakCount, "w");
 	write(directory + "servercount.txt", serverList.length, "w");
 	return serverList;
 	//}
 }
 
+
+
+// Acual running code
 while (true) {
-	loop++;
+	loop++; //Loop counter
+	print("-----------  Scanning all servers ---------");
 	var serverList = scanning();
 	print(" ***** Loop " + loop + " done. *****");
-	//sleep(20000);
 }
-print("------------------------------- scanLoop - End ---");
+
+print("---------------- scanloop DONE! -------------------");

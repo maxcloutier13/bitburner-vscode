@@ -1,28 +1,32 @@
-var serverList = ["home"];
-var serverDone = ["home"]
-var directory = "/mk1/scan/";
-disableLog("ALL");
-var programs = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe",
-	"HTTPWorm.exe", "SQLInject.exe"
-];
-//Show window
-tail("/mk1/attack.script", "home");
-print("------------------------------- attack - Begin ---");
+/* -+-+-+- attack.script -+-+-+- */
+// Cycles trough weak servers and triggers basic mass attacks
 
-//Start looping
-i = 0;
+/* ----- Variables ----- */
+var serverList = ["home"];
+var serverDone = ["home"];
+var i = 0;
+var programs = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "HTTPWorm.exe", "SQLInject.exe"];
+
+/* -----Settings ----- */
+// Show window 
+tail();
+// Disable logging
+disableLog("ALL");
+// Directory for the scan txt files
+var directory = "/mk1/scan/";
+
+/* ----- Main ----- */
+print("------ attack.script ------------------------------");
+
 //Loading serverList from file
-print("------- Cycle begins -------");
-print("----------------------------");
-//sleep(1000);
 var serverCount = read(directory + "weakcount.txt");
-print(serverCount + " servers are weak")
-//sleep(2000);
-print("-- Loading serverlist --");
+print("-- Loading " + serverCount + " weak servers from cache files-");
 for (x = 0; x <= serverCount; x++) {
 	serverList[x] = read(directory + "w" + x + ".txt");
-	print("File " + x + " read:" + serverList[x]);
+	print("--- File " + x + " read:" + serverList[x]);
 }
+
+//Find how many scripts I own (yeah, should be a function. Dumb I know.)
 var scriptsOwned = 0;
 for (z = 0; z < programs.length; ++z) {
 	if (fileExists(programs[z], "home")) {
@@ -43,21 +47,22 @@ for (z = 0; z < programs.length; ++z) {
 		}
 	}
 }
+
 //Gets current best target
 var bestServer = read(directory + "target.txt");
-print("Loaded " + serverList.length + " servers");
-//sleep(2000);
-print("----------------------------");
+print("---- Best server:" + bestServer);
+print("---- Loaded " + serverList.length + " servers");
+
+//Start attacking the weak servers
 var firstRun = 0;
 while (true) {
 	//If at the end, restart
-	if (i >= serverList.length) {
+	if (i >= serverList.length)
 		i = 0;
-	}
 	//clearLog();
 	//First loop. So load info
 	if ((i === 0) && (firstRun != 0)) {
-		print("-NOT First run - reloading variables");
+		print("---- Routine starting -  NOT First run - reloading variables");
 		scriptsOwned = 0;
 		for (z = 0; z < programs.length; ++z) {
 			if (fileExists(programs[z], "home")) {
@@ -79,72 +84,68 @@ while (true) {
 			}
 		}
 		//Loading serverList from file
-		print("------- Cycle begins -------");
-		print("----------------------------");
-		//sleep(5000);
 		var serverCount = read(directory + "weakcount.txt");
-		print(serverCount + " servers are weak")
-		//sleep(2000);
-		print("-- Loading serverlist --");
-		for (x = 0; x <= serverCount; x++) {
+		print("-- Loading " + serverCount + " weak servers from cache files-");
+		for (x = 0; x < serverCount; x++) {
 			serverList[x] = read(directory + "w" + x + ".txt");
-			print("File " + x + " read:" + serverList[x]);
+			print("--- File " + x + " read:" + serverList[x]);
 		}
-		print("Loaded " + serverList.length + " servers");
+		print("---- Loaded " + serverList.length + " servers");
 		//sleep(2000);
 		//Gets current best target
 		bestServer = read(directory + "target.txt");
+		print("---- Best server:" + bestServer);
 	} else {
 		//print("-First run");
 	}
 	firstRun++;
 	var currentServer = serverList[i];
-	print("----- " + currentServer + " - Attempting -----");
+	print("-- Atacking")
+	print("--- " + currentServer + " - Attempting");
 	//Check if already done
 	if (serverDone.includes(serverList[i])) {
-		print(currentServer + " - Already done. Skipping");
+		print(currentServer + "---- Already done. Skipping");
 	} else {
 		//Find how many ports need opening
 		var portsNeeded = getServerNumPortsRequired(currentServer);
-		print(currentServer + " " + scriptsOwned + "/" + portsNeeded + " ports to break");
+		print("---- " + currentServer + " " + scriptsOwned + "/" + portsNeeded + " ports to break");
 		//sleep(1000);
 		//GOOD TO GO!
 		if (hasRootAccess(currentServer)) {
-			print("Server already cracked. Skipping");
+			print("----- Server already cracked. Skipping");
 		} else {
 			print(currentServer + " " + scriptsOwned + "/" + portsNeeded + " ports can be broken");
-			print("--- ScriptsOwned:" + scriptsOwned + " - Breaking server");
+			print("----- ScriptsOwned:" + scriptsOwned + " - Breaking server");
 			exec("/mk1/break.script", "home", 1, currentServer, portsNeeded);
 			sleep(5000);
 			//Upload the hack script
-			print(currentServer + " - Copying Hack");
+			print("----- " + currentServer + " - Copying Hack");
 			scp("/mk1/hack.script", currentServer);
 			ram = getServerMaxRam(currentServer);
-			print(currentServer + " - Ram:" + ram);
+			print("----- " + currentServer + " - Ram:" + ram);
 			cost = getScriptRam("/mk1/hack.script", currentServer);
 			threads = Math.floor(ram / cost);
-			print(currentServer + " - Cost:" + cost + " - Ram: " + ram + " - Threads" + threads);
+			print("----- " + currentServer + " - Cost:" + cost + " - Ram: " + ram + " - Threads" + threads);
 			if (threads > 0) {
 				if (scriptRunning("/mk1/hack.script", currentServer))
-					print("-- Already running --");
+					print("------ Already running");
 				else {
-					print("--- HACKING ---");
+					print("------ HACKING ---");
 					//sleep(1000);
 					killall(currentServer);
 					//sleep(1000);
-					print(currentServer + " - Running hack on:" + bestServer + " - Threads:" + threads);
+					print("------" + currentServer + " - Running hack on:" + bestServer + " - Threads:" + threads);
 					//sleep(10000);
 					exec("/mk1/hack.script", currentServer, threads, bestServer);
-					print(currentServer + " - Hack is running. All done");
+					print("------" + currentServer + " - Hack is running. All done");
 				}
 			} else {
-				print(currentServer + " - Not enough RAM. Skipping");
+				print(currentServer + "----- Not enough RAM. Skipping");
 			}
 		}
 		serverDone.push(serverList[i]);
 	}
 	i++;
-	//print("-----------------------------------");
 }
 
-print("------------------------------- attack - End ---");
+print("---------------- attack DONE! ---------------------");

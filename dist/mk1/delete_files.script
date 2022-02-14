@@ -1,11 +1,22 @@
+/* -+-+-+- delete_files.script -+-+-+- */
+// Deletes all txt files on home
+
+/* -----Settings ----- */
+// Show window 
 tail();
+
+/* ----- Main ----- */
+print("------ delete_files.script ------------------------");
+
 //Deleting all files
 var arr = ls(getHostname(), ".txt");
 print("-- Deleting " + arr.length + " files");
 for (var z in arr) {
 	if (rm(arr[z]))
-		print("-- Deleted: " + arr[z]);
+		print("--- Deleted: " + arr[z]);
 	else
-		print("--- Error deleting: " + arr[z]);
+		print("---- Error deleting: " + arr[z]);
 }
-print("-- Done deleting files --")
+print("-- Done deleting " + arr.length + " files --")
+
+print("---------------- delete_files DONE! ---------------");

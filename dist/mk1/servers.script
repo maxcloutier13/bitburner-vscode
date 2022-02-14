@@ -1,155 +1,145 @@
-//Buys servers then upgrade them by wave
-var directory = "/mk1/scan/";
+/* -+-+-+- servers.script -+-+-+- */
+// Buys basic servers then starts upgrading them
+
+/* ----- Variables ----- */
 var target = read(directory + "target.txt");
 var oldTarget = target;
 var ram = 8;
 var i = 0;
-disableLog("ALL");
-//Show window
-tail();
 
-//First fills up with 8go servers
-print("------------------------------- servers - Start ---");
+/* -----Settings ----- */
+// Show window 
+tail();
+// Disable logging
+disableLog("ALL");
+// Directory for the scan txt files
+var directory = "/mk1/scan/";
+
+/* ----- Main ----- */
+print("------ servers.script -----------------------------");
+
+// First fills up with 8go servers
 var serverCount = getPurchasedServers().length;
 var limitServer = getPurchasedServerLimit();
-print("Current: " + serverCount + " - Max: " + limitServer);
+print("-- Current: " + serverCount + " - Max: " + limitServer);
 sleep(2000);
 if (serverCount < limitServer) {
-	print("--- Initial setup - Buying 8go servers ---")
+	print("--- Initial setup - Buying 8go servers")
 	write(directory + "ram.txt", ram, "w");
 	while (serverCount < getPurchasedServerLimit()) {
 		// Check if we have enough money to purchase a server
 		var cost = getPurchasedServerCost(ram);
 		if (getServerMoneyAvailable("home") > cost) {
-			print("--- Money! Purchasing " + serverCount + "/" + limitServer + "...  ---")
+			print("---- Money! Purchasing " + serverCount + "/" + limitServer + "...")
 			var hostname = purchaseServer("pserv-" + i, ram);
 			scp("/mk1/hack.script", hostname);
 			//Find how many times it can run
 			exec("/mk1/hack.script", hostname, 3, target);
 			serverCount = getPurchasedServers().length;
-			//alert("Server " + hostname + " up and running");
-		}
-		else {
-			print("--- Not enough money for " + serverCount + "/" + limitServer + " - Waiting for " + cost + " ---");
+		} else {
+			print("---- Not enough money for " + serverCount + "/" + limitServer + " - Waiting for " + cost);
 			sleep(5000);
 		}
 	}
 }
 
-//Reading the last upgraded ram
+// Reading the last upgraded ram
 ram = read(directory + "ram.txt");
-clearLog();
-while (true) {
-	//Sort the servers
+// Keeps upgrading until 8192go upgrade
+while (ram <= 8192) {
+	// Sort the servers
 	var servers = getPurchasedServers();
 	var skipped = [];
 	var upgservers = [];
-	//Sorts the servers
-	print("---- Sorting servers to upgrade to " + ram + " ----");
+	// Sorts the servers
+	print("-- Sorting servers to upgrade to " + ram);
 	for (i = 0; i < servers.length; i++) {
 		currentServer = servers[i];
 		currentServerRam = getServerMaxRam(currentServer);
-		//Check if server needs upgrade
+		// Check if server needs upgrade
 		if (currentServerRam >= ram) {
-			print("---- Server " + currentServer + " @" + currentServerRam + " doesn't need upgrade ----");
+			print("--- Server " + currentServer + " @" + currentServerRam + " doesn't need upgrade");
 			skipped.push(currentServer);
-		}
-		else {
-			print("---- Server " + currentServer + " @" + currentServerRam + " needs upgrade ----");
+		} else {
+			print("--- Server " + currentServer + " @" + currentServerRam + " needs upgrade");
 			upgservers.push(currentServer);
 		}
 	}
 	print("---- Done Sorting ----");
 	var doneCount = skipped.length;
-	//Write the number of already upgraded serves
+	// Write the number of already upgraded serves
 	write(directory + "ramservers.txt", doneCount, "w");
-	print("--- Skipping " + skipped.length + " servers ---");
-	print("--- Upgrading " + upgservers.length + " servers to " + ram + " ---");
+	print("-- Skipping " + skipped.length + " servers");
+	print("-- Upgrading " + upgservers.length + " servers to " + ram);
 	sleep(5000);
 	for (i = 0; i < upgservers.length; i++) {
 		flag = 0;
-		//clearLog();
 		currentServer = upgservers[i];
-		print("--------- Upgrading " + currentServer + " ---------");
+		print("--- Upgrading " + currentServer);
 		currentServerRam = getServerMaxRam(currentServer);
-		print("-- CurrentRam " + currentServerRam + " --");
-		//Check if server needs upgrade
-		// Check if we have enough money to purchase a server
-		print("---- Start: " + currentServer + " from " + currentServerRam + " to " + ram + "go ----");
+		print("-- CurrentRam " + currentServerRam);
+		print("-- Upgrading server: " + currentServer + " from " + currentServerRam + " to " + ram + "go");
 		//print("Flag= " + flag);
 		while (flag === 0) {
-			//print(" -- While starts -- ");
 			if (getServerMoneyAvailable("home") > getPurchasedServerCost(ram)) {
-				//clearLog();
-				print("- Enough money. Proceeding -----------");
+				print("--- Enough money. Proceeding");
 				sleep(1000);
-				//Delete old server
+				// Delete old server
 				killall(currentServer);
-				//Finds the target of the old server
+				// Finds the target of the old server
 				var scripts = ps(currentServer);
-				//print("- Finding hack script from " + scripts.length + " -");
 				for (j = 0; j < scripts.length; ++j) {
 					var currentScript = scripts[j];
-					print("-- Script: " + currentScript + " --");
+					print("---- Finding old target if it exists");
 					if (currentScript.filename === "/mk1/hack.script") {
-						print("-- Found hack script. Getting oldTarget --");
+						print("----- Found hack script. Getting oldTarget");
 						oldTarget = currentScript.args[0];
 					}
-					else {
-						print("-- Not hack.script. --");
-					}
 				}
-				//Get name
+				// Get name
 				var oldName = currentServer;
-				//print("OldName: " + oldName);
+				// Delete 
 				deleteServer(currentServer);
-				//print("OldName: " + oldName);
-				//Create new server
+				// Create new server
 				newServer = purchaseServer(oldName, ram);
-				//print("- Purchased: " + newServer + " -");
-				//Copy hack
-				//print("- Copy hack - ");
+				print("--- Purchased: " + newServer);
+				// Copy hack
+				print("--- Copy hack");
 				scp("/mk1/hack.script", newServer);
-				//Find how many times it can run
+				// Find how many times it can run
 				ram = getServerMaxRam(newServer);
-				print(newServer + " - Ram:" + ram);
+				print("--- " + newServer + " - Ram:" + ram);
 				cost = getScriptRam("/mk1/hack.script", newServer);
 				threads = Math.floor(ram / cost);
 				print("--- Targeting: " + target);
 				exec("/mk1/hack.script", newServer, threads, target);
-				//print("--Flag= " + flag);
 				doneCount++;
 				write(directory + "ramservers.txt", doneCount, "w");
-				print("Server " + newServer + " upgraded to " + ram + " ram");
+				print("---- Server " + newServer + " upgraded to " + ram + " ram");
 				flag = 1;
-				//sleep(2000);
-			}
-			else {
-				//clearLog();
-				//print("---- Upgrading: " + doneCount + " " + currentServer + " from " + currentServerRam + " to " + ram + "go ----");
+			} else {
 				var missing = getPurchasedServerCost(ram) / 1000000;
-				print("-- Need: " + missing + "M - Waiting...");
+				print("--- Need: " + missing + "M - Waiting...");
 				flag = 0;
 				sleep(5000);
 			}
 		}
 	}
+
+	// When servers are decent, switch target
 	if (ram === 512) {
-		//Servers are strong: Switch target.
+		// Servers are strong: Switch target.
 		if (prompt("Servers @ 512go. Update Target?")) {
 			run("/mk1/update.script", 1);
 		}
 	}
 
-	//Next upgrade x4
+	// Next upgrade x4
 	var ramDone = ram;
 	ram = ram * 4;
-	//Write ram info to txt file
+	// Write ram info to txt file
 	write(directory + "ram.txt", ramDone, "w");
-	if (prompt("Keep upgrading servers to " + ram + "?"))
-		print("Keep going!");
-	else
-		exit();
 }
-alert("All servers upgraded to " + ram);
-print("------------------------------- servers - End ---");
+
+alert("All servers upgraded to " + ramDone);
+print("---------------- servers DONE! --------------------");

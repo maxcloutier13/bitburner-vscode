@@ -1,61 +1,85 @@
-var directory = "/mk1/scan/";
-var target = read(directory + "target.txt");
+/* -+-+-+- homeattack.script -+-+-+- */
+// Targets the home server to attack bestServer
+
+/* ----- Variables ----- */
 var cost = 0;
 var threads = 0;
 var currentScript = [];
-disableLog("ALL");
-//tail();
 
-//Check if target is vulnerable
-print("--- Checking " + target + " for weakness ---");
+/* -----Settings ----- */
+// Show window 
+tail();
+// Disable logging
+disableLog("ALL");
+// Directory for the scan txt files
+var directory = "/mk1/scan/";
+// Target for the attack
+var target = read(directory + "target.txt");
+
+
+/* ----- Main ----- */
+print("------ homeattack.script --------------------------");
+
+// Check if target is vulnerable
+print("-- Target:" + target + " - checking for weakness");
 while (hasRootAccess(target) === false) {
-	print("Server locked... waiting... ")
+	print("--- Server locked... waiting... ");
 	sleep(10000);
 }
-//Kill old scripts
-print("-- Killing old scripts --")
+print("--- Server vulnerable. Proceeding ");
+
+// Kill old scripts
+print("-- Killing old scripts")
 var scripts = ps("home");
 for (i = 0; i < scripts.length; ++i) {
-	//print("Script running " + scripts[i].filename);
-	//print("Arguments: " + scripts[i].args);
 	currentScript = scripts[i];
-	print("-- CurrentScript: " + currentScript.filename);
+	//print("-- CurrentScript: " + currentScript.filename);
 	if (currentScript.filename === "/mk1/weaken.script") {
-		print("-- Kill Weaken --");
+		print("--- Killed Weaken");
 		kill(currentScript.filename, "home", currentScript.args[0]);
 	}
 
 	if (currentScript.filename === "/mk1/grow.script") {
-		print("-- Kill Grow --");
+		print("--- Killed Grow");
 		kill(currentScript.filename, "home", currentScript.args[0]);
 	}
 
 	if (currentScript.filename === "/mk1/steal.script") {
-		print("-- Kill Steal --");
+		print("--- Killed Steal");
 		kill(currentScript.filename, "home", currentScript.args[0]);
 	}
 }
-kill("/mk1/weaken.script", "home", "");
-kill("/mk1/grow.script", "home");
-kill("/mk1/steal.script", "home");
-print("--- Server weak ---");
-//Calculate ram and use 1/4th for each script
+
+// Calculate ram. Finds available and distributes to the scripts
+print("-- Calculating RAM needs");
 var currentRam = getServerMaxRam("home");
-var dedicatedRam = currentRam / 4;
-//Weaken
+var availableRam = currentRam * 0.9;
+var weakRam = availableRam * 0.7;
+var growRam = availableRam * 0.2;
+var hackRam = availableRam * 0.1;
+print("--- Ram - Weak:" + weakRam.toFixed(0) + " Grow:" + growRam.toFixed(0) + " Hack:" + hackRam.toFixed(0));
+
+// Weaken
 cost = getScriptRam("/mk1/weaken.script", "home");
-threads = Math.floor(dedicatedRam / cost);
+threads = Math.floor(weakRam / cost);
 print("--- Running weaken on " + threads + " threads ---");
 run("/mk1/weaken.script", threads, target);
-//Grow
+sleep(1000);
+
+// Grow
 cost = getScriptRam("/mk1/grow.script", "home");
-threads = Math.floor(dedicatedRam / cost);
+threads = Math.floor(growRam / cost);
 print("--- Running grow on " + threads + " threads ---");
 run("/mk1/grow.script", threads, target);
-//Hack
+sleep(500);
+
+// Hack
 cost = getScriptRam("/mk1/steal.script", "home");
-threads = Math.floor(dedicatedRam / cost);
+threads = Math.floor(hackRam / cost);
 print("--- Running hack on " + threads + " threads ---");
 run("/mk1/steal.script", threads, target);
-//All done!
+
+// All done!
 alert("Home is attacking: " + target);
+sleep(10000);
+print("---------------- homeattack DONE! -----------------");

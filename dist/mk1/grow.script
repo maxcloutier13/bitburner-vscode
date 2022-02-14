@@ -1,3 +1,7 @@
+/* -+-+-+- grow.script -+-+-+- */
+// Constantly grows target
+
+//tail();
 var target = args[0];
 while (true) {
 	if (hasRootAccess(target))

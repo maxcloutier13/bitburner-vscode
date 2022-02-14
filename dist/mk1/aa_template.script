@@ -1,0 +1,22 @@
+/* -+-+-+- scriptName.script -+-+-+- */
+// Quick description
+
+/* ----- Variables ----- */
+
+/* -----Settings ----- */
+// Show window 
+tail();
+// Disable logging
+disableLog("ALL");
+
+/* ----- Main ----- */
+print("------ scriptName.script --------------------------");
+print("------ scriptName.script --------------------------");
+
+// Basic comment
+print("-- First level action");
+print("--- 2nd level action");
+print("---- 3rd level action");
+
+print("---------------- scriptName DONE! -----------------");
+print("---------------- scriptName DONE! -----------------");
